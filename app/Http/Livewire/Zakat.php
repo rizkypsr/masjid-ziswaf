@@ -28,6 +28,16 @@ class Zakat extends Component
         ]);
     }
 
+    protected $rules = [
+        'jumlahMaal' => 'required|numeric|min:10000',
+    ];
+
+    protected $messages = [
+        'jumlahMaal.required' => 'Minimal  Infaq Rp. 10.000',
+        'jumlahMaal.min' => 'Minimal  Infaq Rp. 10.000',
+        'jumlahMaal.numeric' => 'Harus dalam bentuk angka'
+    ];
+
     public function updatedZakat($value)
     {
         if ($value == 'maal') {
@@ -38,13 +48,6 @@ class Zakat extends Component
         if ($value == 'fitrah') {
             $this->showFitrah = true;
             $this->showMaal = false;
-        }
-    }
-
-    public function updatedjumlahMaal($value)
-    {
-        if ($value < 10000) {
-            $this->jumlahMaal = 10000;
         }
     }
 
@@ -60,6 +63,8 @@ class Zakat extends Component
 
     public function submit()
     {
+        $this->validate();
+
         if ($this->zakat == "maal") {
             $amount = $this->jumlahMaal;
             $totalUserFitrah = null;
